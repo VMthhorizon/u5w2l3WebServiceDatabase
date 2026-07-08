@@ -27,8 +27,8 @@ public class AutoreServices {
     }
 
     public Page<Autore> getAll(int page, int size) {
-        if (size > 30) size = 50;
-        if (size < 0) size = 10;
+        if (size > 30) size = 1;
+        if (size < 0) size = 3;
         if (page < 0) page = 0;
         Pageable pageable = PageRequest.of(page, size);
         return this.autoreRepository.findAll(pageable);

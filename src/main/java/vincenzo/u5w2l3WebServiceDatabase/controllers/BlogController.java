@@ -37,12 +37,15 @@ public class BlogController {
     @ResponseStatus(HttpStatus.CREATED)
     public BlogPostsResponsePayload createBlog(@RequestBody BlogPostsPayload body) {
         Blog blogPost = this.blogPostsServices.createBlog(body);
-        return new BlogPostsResponsePayload(blogPost.getCategoria(), blogPost.getCategoria(), blogPost.getContenuto(),
-                blogPost.getTempoDiLettura(), blogPost.getId());
+        return new BlogPostsResponsePayload(blogPost.getCategoria(),
+                blogPost.getTitolo(),
+                blogPost.getContenuto(),
+                blogPost.getTempoDiLettura(),
+                blogPost.getAutore()
+                        .getId());
     }
 
     @GetMapping("/{blogPostId}")
-    @ResponseStatus(HttpStatus.FOUND)
     public Blog findById(@PathVariable UUID blogPostId) {
         return this.blogPostsServices.findById(blogPostId);
     }

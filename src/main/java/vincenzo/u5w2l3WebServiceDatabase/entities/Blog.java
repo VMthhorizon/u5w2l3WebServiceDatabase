@@ -20,6 +20,10 @@ public class Blog {
     @JoinColumn(name = "id_autore")
     private Autore autore;
 
+    protected Blog() {
+    }
+
+
     public Blog(String categoria, String titolo, String contenuto, int tempoDiLettura, Autore autore) {
         this.categoria = categoria;
         this.titolo = titolo;
@@ -64,7 +68,7 @@ public class Blog {
     public UUID getId() {
         return id;
     }
-    
+
 
     public Autore getAutore() {
         return autore;

@@ -20,6 +20,9 @@ public class Autore {
     private String dataDiNascita;
     private String avatar;
 
+    protected Autore() {
+    }
+
     public Autore(String nome, String cognome, String email, String dataDiNascita) {
         this.avatar = "https://ui-avatars.com/api?name=Mario+Rossi";
         this.nome = nome;

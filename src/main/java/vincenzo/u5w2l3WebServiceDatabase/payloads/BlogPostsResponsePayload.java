@@ -5,31 +5,19 @@ import vincenzo.u5w2l3WebServiceDatabase.entities.Autore;
 import java.util.UUID;
 
 public class BlogPostsResponsePayload {
-    private UUID id;
     private String categoria;
     private String titolo;
     private String contenuto;
     private int tempoDiLettura;
-    private String cover;
-    private Autore autore;
+    private UUID autoreID;
 
-    public BlogPostsResponsePayload(UUID id, String categoria, String titolo, String contenuto, int tempoDiLettura,
-                                    String cover, Autore autore) {
-        this.id = id;
+    public BlogPostsResponsePayload(String categoria, String titolo, String contenuto, int tempoDiLettura,
+                                    UUID autoreID) {
         this.categoria = categoria;
         this.titolo = titolo;
         this.contenuto = contenuto;
         this.tempoDiLettura = tempoDiLettura;
-        this.cover = cover;
-        this.autore = autore;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getCover() {
-        return cover;
+        this.autoreID = autoreID;
     }
 
     public String getContenuto() {
@@ -44,8 +32,8 @@ public class BlogPostsResponsePayload {
         return categoria;
     }
 
-    public Autore getAutore() {
-        return autore;
+    public UUID getAutoreID() {
+        return autoreID;
     }
 
     public int getTempoDiLettura() {
@@ -71,12 +59,10 @@ public class BlogPostsResponsePayload {
     @Override
     public String toString() {
         return "BlogPostsResponsePayload{" +
-                "id=" + id +
                 ", categoria='" + categoria + '\'' +
                 ", titolo='" + titolo + '\'' +
                 ", contenuto='" + contenuto + '\'' +
                 ", tempoDiLettura=" + tempoDiLettura +
-                ", cover='" + cover + '\'' +
                 '}';
     }
 }

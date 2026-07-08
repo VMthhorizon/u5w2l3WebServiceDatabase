@@ -64,6 +64,7 @@ public class Blog {
     public UUID getId() {
         return id;
     }
+    
 
     public Autore getAutore() {
         return autore;

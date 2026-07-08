@@ -1,7 +1,15 @@
 package vincenzo.u5w2l3WebServiceDatabase.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import vincenzo.u5w2l3WebServiceDatabase.Repositories.AutoreRepository;
+import vincenzo.u5w2l3WebServiceDatabase.Repositories.BlogPostsRepository;
+import vincenzo.u5w2l3WebServiceDatabase.entities.Autore;
 import vincenzo.u5w2l3WebServiceDatabase.entities.Blog;
+import vincenzo.u5w2l3WebServiceDatabase.exceptions.NotFoundException;
+import vincenzo.u5w2l3WebServiceDatabase.payloads.AutoreRequestPayload;
 import vincenzo.u5w2l3WebServiceDatabase.payloads.BlogPostsPayload;
 import vincenzo.u5w2l3WebServiceDatabase.payloads.BlogPostsResponsePayload;
 
@@ -13,55 +21,48 @@ import java.util.UUID;
 @Service
 public class BlogPostsServices {
 
-    private List<Blog> blogPostsFromDb = new ArrayList<>();
+    private final AutoreServices autoreRepository;
+    private final BlogPostsRepository blogPostsRepository;
 
-    public List<Blog> findAll() {
-        return this.blogPostsFromDb;
+    public BlogPostsServices(AutoreServices autoreRepository, BlogPostsRepository blogPostsRepository) {
+        this.autoreRepository = autoreRepository;
+        this.blogPostsRepository = blogPostsRepository;
     }
 
-    public BlogPostsResponsePayload createBlogPosts(BlogPostsPayload body) {
-        Blog newBlog = new Blog(body.getCategoria(), body.getTitolo(), body.getContenuto(), body.getTempoDiLettura(),
-                body.getAutore());
-        blogPostsFromDb.add(newBlog);
-        System.out.println("Il post con titolo" + newBlog.getTitolo() + " é stato creato");
-        return new BlogPostsResponsePayload(newBlog.getId(), newBlog.getCategoria(), newBlog.getTitolo(),
-                newBlog.getContenuto(), newBlog.getTempoDiLettura(), newBlog.getCover(), newBlog.getAutore());
+
+    public Blog createBlog(BlogPostsPayload body) {
+        Autore autore = autoreRepository.findById(body.getAutoreId());
+        Blog blogFromDb = new Blog(body.getCategoria(), body.getTitolo(), body.getContenuto(), body.getTempoDiLettura(),
+                autore);
+        return blogPostsRepository.save(blogFromDb);
+    }
+
+    public Page<Blog> getAll(int page, int size) {
+        if (size > 30) size = 20;
+        if (size < 0) size = 10;
+        if (page < 0) page = 0;
+        Pageable pageable = PageRequest.of(page, size);
+        return this.blogPostsRepository.findAll(pageable);
     }
 
     public Blog findById(UUID blogPostId) {
-        Blog found = null;
-
-        for (Blog blog : this.blogPostsFromDb) {
-            if (blog.getId() == blogPostId) found = blog;
-        }
-
-        if (found == null) throw new RuntimeException("Blog non trovato");
-        return found;
+        return this.blogPostsRepository.findById(blogPostId)
+                .orElseThrow(() -> new NotFoundException(blogPostId));
     }
 
-    public BlogPostsResponsePayload modifyBlogPostById(BlogPostsPayload body, UUID blogPostsId) {
-        Blog found = null;
+    public Blog findByIdAndUpdate(UUID blogPostId, BlogPostsPayload payload) {
+        Blog found = this.findById(blogPostId);
 
-        for (Blog blog : this.blogPostsFromDb) {
-            if (blog.getId() == blogPostsId) {
-                found = blog;
-                found.setTitolo(body.getTitolo());
-                found.setCategoria(body.getCategoria());
-                found.setTempoDiLettura(body.getTempoDiLettura());
+        found.setCategoria(payload.getCategoria());
+        found.setTitolo(payload.getTitolo());
+        found.setContenuto(payload.getContenuto());
+        found.setTempoDiLettura(payload.getTempoDiLettura());
 
-                break;
-            }
-        }
-        if (found == null) throw new RuntimeException("Blog non trovato");
-
-        return new BlogPostsResponsePayload(found.getId(), found.getCategoria(),
-                found.getTitolo(), found.getContenuto(), found.getTempoDiLettura(), found.getCover(),
-                found.getAutore());
+        return this.blogPostsRepository.save(found);
     }
 
-    public void deleteBlogById(UUID blogPostId) {
-        Blog found = findById(blogPostId);
-
-        if (found == null) throw new RuntimeException("Nessun blog trovato");
+    public void findByIdAndDelete(UUID blogPostId) {
+        Blog found = this.findById(blogPostId);
+        this.blogPostsRepository.delete(found);
     }
 }

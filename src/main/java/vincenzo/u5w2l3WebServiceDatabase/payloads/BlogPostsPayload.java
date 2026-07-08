@@ -2,20 +2,22 @@ package vincenzo.u5w2l3WebServiceDatabase.payloads;
 
 import vincenzo.u5w2l3WebServiceDatabase.entities.Autore;
 
+import java.util.UUID;
+
 public class BlogPostsPayload {
 
     private String categoria;
     private String titolo;
     private String contenuto;
     private int tempoDiLettura;
-    private Autore autore;
+    private UUID autoreId;
 
-    public BlogPostsPayload(String categoria, String titolo, String contenuto, int tempoDiLettura, Autore autore) {
+    public BlogPostsPayload(String categoria, String titolo, String contenuto, int tempoDiLettura, UUID autoreId) {
         this.categoria = categoria;
         this.titolo = titolo;
         this.contenuto = contenuto;
         this.tempoDiLettura = tempoDiLettura;
-        this.autore = autore;
+        this.autoreId = autoreId;
     }
 
     public String getCategoria() {
@@ -34,8 +36,8 @@ public class BlogPostsPayload {
         return tempoDiLettura;
     }
 
-    public Autore getAutore() {
-        return autore;
+    public UUID getAutoreId() {
+        return autoreId;
     }
 
     public void setCategoria(String categoria) {

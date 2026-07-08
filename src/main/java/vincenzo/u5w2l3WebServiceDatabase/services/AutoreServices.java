@@ -3,17 +3,12 @@ package vincenzo.u5w2l3WebServiceDatabase.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vincenzo.u5w2l3WebServiceDatabase.Repositories.AutoreRepository;
 import vincenzo.u5w2l3WebServiceDatabase.entities.Autore;
-import vincenzo.u5w2l3WebServiceDatabase.exceptions.BadRequestException;
 import vincenzo.u5w2l3WebServiceDatabase.exceptions.NotFoundException;
 import vincenzo.u5w2l3WebServiceDatabase.payloads.AutoreRequestPayload;
-import vincenzo.u5w2l3WebServiceDatabase.payloads.AutoreResponsePayload;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service

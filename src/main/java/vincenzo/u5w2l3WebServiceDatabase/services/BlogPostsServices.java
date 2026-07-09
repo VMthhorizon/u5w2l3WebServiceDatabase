@@ -31,8 +31,8 @@ public class BlogPostsServices {
 
 
     public Blog createBlog(BlogPostsPayload body) {
-        Autore autore = autoreRepository.findById(body.getAutoreId());
-        Blog blogFromDb = new Blog(body.getCategoria(), body.getTitolo(), body.getContenuto(), body.getTempoDiLettura(),
+        Autore autore = autoreRepository.findById(body.autoreId());
+        Blog blogFromDb = new Blog(body.categoria(), body.titolo(), body.contenuto(), body.tempoDiLettura(),
                 autore);
         return blogPostsRepository.save(blogFromDb);
     }
@@ -53,10 +53,10 @@ public class BlogPostsServices {
     public Blog findByIdAndUpdate(UUID blogPostId, BlogPostsPayload payload) {
         Blog found = this.findById(blogPostId);
 
-        found.setCategoria(payload.getCategoria());
-        found.setTitolo(payload.getTitolo());
-        found.setContenuto(payload.getContenuto());
-        found.setTempoDiLettura(payload.getTempoDiLettura());
+        found.setCategoria(payload.categoria());
+        found.setTitolo(payload.titolo());
+        found.setContenuto(payload.contenuto());
+        found.setTempoDiLettura(payload.tempoDiLettura());
 
         return this.blogPostsRepository.save(found);
     }

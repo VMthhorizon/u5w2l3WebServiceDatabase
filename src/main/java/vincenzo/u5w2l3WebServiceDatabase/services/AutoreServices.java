@@ -22,7 +22,7 @@ public class AutoreServices {
 
 
     public Autore createAutore(AutoreRequestPayload body) {
-        Autore autoreFromDb = new Autore(body.getNome(), body.getCognome(), body.getEmail(), body.getDataDiNascita());
+        Autore autoreFromDb = new Autore(body.nome(), body.cognome(), body.email(), body.dataDiNascita());
         return autoreRepository.save(autoreFromDb);
     }
 
@@ -42,10 +42,10 @@ public class AutoreServices {
     public Autore findByIdAndUpdate(UUID autoreId, AutoreRequestPayload payload) {
         Autore found = this.findById(autoreId);
 
-        found.setNome(payload.getNome());
-        found.setCognome(payload.getCognome());
-        found.setEmail(payload.getEmail());
-        found.setDataDiNascita(payload.getDataDiNascita());
+        found.setNome(payload.nome());
+        found.setCognome(payload.cognome());
+        found.setEmail(payload.email());
+        found.setDataDiNascita(payload.dataDiNascita());
 
         return this.autoreRepository.save(found);
     }

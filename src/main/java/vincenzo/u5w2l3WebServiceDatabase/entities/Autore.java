@@ -72,6 +72,10 @@ public class Autore {
         this.nome = nome;
     }
 
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @Override
     public String toString() {
         return "Autore{" +

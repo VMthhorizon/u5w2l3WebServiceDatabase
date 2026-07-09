@@ -77,6 +77,11 @@ public class AutoreController {
         return this.autoreServices.findByIdAndUpdate(autoreId, body);
     }
 
+    @PatchMapping("/{autoreId}/avatar")
+    public void updateAvatar(@PathVariable UUID autoreId, @RequestParam("avatar_pic") MultipartFile file) {
+        this.autoreServices.updateAvatar(autoreId, file);
+    }
+
     @DeleteMapping("/{autoreId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAutore(@PathVariable UUID autoreId) {

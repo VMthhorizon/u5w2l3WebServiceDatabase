@@ -36,8 +36,8 @@ public class AutoreController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AutoreResponsePayload createAutore(@RequestBody @Validated AutoreRequestPayload body,
-                                              BindingResult validationResult,
-                                              @RequestParam("avatar") MultipartFile file) {
+                                              BindingResult validationResult
+    ) {
         if (validationResult.hasErrors()) {
             validationResult.getFieldErrors()
                     .forEach(fieldError -> System.out.println(fieldError.getDefaultMessage()));
@@ -48,8 +48,6 @@ public class AutoreController {
                     .toList();
             throw new ValidationException(errorsList);
         }
-
-        System.out.println(file.getOriginalFilename());
 
         Autore autore = this.autoreServices.createAutore(body);
         return new AutoreResponsePayload(autore.getId(), autore.getNome(), autore.getCognome(), autore.getEmail(),
